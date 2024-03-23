@@ -1,0 +1,35 @@
+name: Lints
+
+permissions:
+  contents: write
+
+on:
+  push:
+    branches:
+      - release/*
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+      - name: Resolve dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Run pint
+        run: ./vendor/bin/pint -v
+      - name: Auto Commit
+        run: |
+          git add -N .
+          if ! git diff --exit-code --quiet; then
+            git config --local user.email "github-actions[bot]@users.noreply.github.com"
+            git config --local user.name "github-actions[bot]"
+            git add .
+            git commit -m "refactor: pint"
+            git push origin release
+          fi

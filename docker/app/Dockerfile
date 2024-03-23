@@ -1,4 +1,4 @@
-FROM php:8.2-fpm-bullseye
+FROM php:8.3-fpm-bullseye
 
 WORKDIR /var/www/html
 
@@ -24,6 +24,7 @@ RUN \
     \
     # PHP拡張機能のインストール \
     docker-php-ext-install \
+        bcmath \
         pdo_mysql \
         zip \
     ; \

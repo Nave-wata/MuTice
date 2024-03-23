@@ -1,9 +1,12 @@
-name: phpunit
+name: Tests
 
 on:
   pull_request:
-    paths:
-      - "**.php"
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
 
 jobs:
   phpunit:
@@ -27,8 +30,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          # 開発環境のPHPバージョンを指定
-          php-version: "8.2"
+          php-version: "8.3"
           tools: composer:v2
       - name: Copy .env
         run: cp .env.example .env
