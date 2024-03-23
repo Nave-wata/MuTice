@@ -5,7 +5,7 @@ return [
     'documentations' => [
         'default' => [
             'api' => [
-                'title' => 'API Documentation - ' . env('APP_NAME'),
+                'title' => 'API Documentation - '.env('APP_NAME'),
             ],
 
             'routes' => env('APP_ENV') === 'production' ?: [
