@@ -25,13 +25,20 @@ fi
 # 死んだセッションを削除
 screen -wipe
 
-# vite セッションを作成
+# セッションを作成
 screen -dmS vite
+screen -dmS queue
 
 # vite セッションで開発 Node サーバーを起動
 screen -S vite -X stuff ' \
     cd /var/www/html
     npm run dev
+'
+
+# queue セッションでキューを起動
+screen -S queue -X stuff ' \
+    cd /var/www/html
+    php artisan queue:work
 '
 
 /usr/local/bin/docker-php-entrypoint php-fpm

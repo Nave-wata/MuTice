@@ -1,0 +1,25 @@
+name: Static-Analysis
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+
+jobs:
+  larastan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer:v2
+      - name: Resolve dependencies
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: Run larastan
+        run: ./vendor/bin/phpstan analyse --memory-limit=2G --configuration=phpstan.neon

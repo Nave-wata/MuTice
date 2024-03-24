@@ -2,15 +2,63 @@ version: "3"
 
 services:
   app:
-    image: nave3/laravel-template:app-11.x_php8.2
-    container_name: laravel11.x_app
+    image: nave3/mutice:app-1.0.0
+    container_name: mutice_app
     build:
       context: .
-      dockerfile: docker/app/php8_2.Dockerfile
+      dockerfile: docker/app/Dockerfile
     volumes:
       - .:/var/www/html
     ports:
       - "5173:5173"
+    depends_on:
+      - db
+    tty: true
+
+  nginx:
+    image: nave3/mutice:nginx-1.0.0
+    container_name: mutice_nginx
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    volumes:
+      - ./public:/var/www/html/public
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    tty: true
+
+  db:
+    image: nave3/mutice:db-1.0.0
+    container_name: mutice_db
+    build:
+      context: .
+      dockerfile: ./docker/db/Dockerfile
+    volumes:
+      - ./docker/db/data:/var/lib/mysql
+    environment:
+      MARIADB_DATABASE: app
+      MARIADB_ROOT_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    tty: true
+
+  phpmyadmin:
+    image: nave3/mutice:phpmyadmin-1.0.0
+    container_name: mutice_phpmyadmin
+    build:
+      context: .
+      dockerfile: ./docker/phpmyadmin/Dockerfile
+    environment:
+      PMA_ARBITRARY: 1
+      PMA_HOST: db
+      PMA_USER: root
+      PMA_PASSWORD: pass
+      PMA_VERBOSE: phpmyadmin
+      PMA_PORT: 3306
+    ports:
+      - "8080:80"
     depends_on:
       - db
     tty: true
