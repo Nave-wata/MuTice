@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Feature\providers;
+namespace Tests\Feature\Providers;
 
 use Tests\TestCase;
 

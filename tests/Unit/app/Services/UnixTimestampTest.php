@@ -44,7 +44,7 @@ class UnixTimestampTest extends TestCase
      *
      * @see UnixTimestamp::millToBase62()
      */
-    public function test_millToBase62(): void
+    public function test_mill_to_base62(): void
     {
         $chars = Base62Converter::BASE62_CHARS;
 
@@ -61,7 +61,7 @@ class UnixTimestampTest extends TestCase
      *
      * @see UnixTimestamp::toBase62()
      */
-    public function test_toBase62(): void
+    public function test_to_base62(): void
     {
         $chars = Base62Converter::BASE62_CHARS;
 
@@ -80,7 +80,7 @@ class UnixTimestampTest extends TestCase
      *
      * @see UnixTimestamp::fromBase62()
      */
-    public function test_fromBase62(): void
+    public function test_from_base62(): void
     {
         foreach (TimeUnits::cases() as $timeUnit) {
             $base62UnixTimestamp = $this->unixTimestamp->toBase62($timeUnit);
